@@ -1,4 +1,4 @@
-defmodule ShoppingCartWeb.ChannelCase do
+defmodule AcmeWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule ShoppingCartWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint ShoppingCartWeb.Endpoint
+      @endpoint AcmeWeb.Endpoint
     end
   end
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ShoppingCart.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Acme.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(ShoppingCart.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Acme.Repo, {:shared, self()})
     end
     :ok
   end

@@ -1,14 +1,14 @@
-defmodule ShoppingCartWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :shopping_cart
+defmodule AcmeWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :acme
 
-  socket "/socket", ShoppingCartWeb.UserSocket
+  socket "/socket", AcmeWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :shopping_cart, gzip: false,
+    at: "/", from: :acme, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -33,10 +33,10 @@ defmodule ShoppingCartWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_shopping_cart_key",
+    key: "_acme_key",
     signing_salt: "Ul39FadN"
 
-  plug ShoppingCartWeb.Router
+  plug AcmeWeb.Router
 
   @doc """
   Callback invoked for dynamically configuring the endpoint.

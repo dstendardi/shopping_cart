@@ -1,6 +1,6 @@
-defmodule ShoppingCart do
+defmodule Acme do
   @moduledoc """
-  ShoppingCart keeps the contexts that define your domain
+  Acme keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

@@ -1,4 +1,4 @@
-defmodule ShoppingCart.DataCase do
+defmodule Acme.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule ShoppingCart.DataCase do
 
   using do
     quote do
-      alias ShoppingCart.Repo
+      alias Acme.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import ShoppingCart.DataCase
+      import Acme.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ShoppingCart.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Acme.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(ShoppingCart.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Acme.Repo, {:shared, self()})
     end
 
     :ok

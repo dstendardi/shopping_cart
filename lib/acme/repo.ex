@@ -1,5 +1,5 @@
-defmodule ShoppingCart.Repo do
-  use Ecto.Repo, otp_app: :shopping_cart
+defmodule Acme.Repo do
+  use Ecto.Repo, otp_app: :acme
 
   @doc """
   Dynamically loads the repository url from the

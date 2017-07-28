@@ -1,12 +1,12 @@
-defmodule ShoppingCartWeb do
+defmodule AcmeWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use ShoppingCartWeb, :controller
-      use ShoppingCartWeb, :view
+      use AcmeWeb, :controller
+      use AcmeWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,24 +19,24 @@ defmodule ShoppingCartWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ShoppingCartWeb
+      use Phoenix.Controller, namespace: AcmeWeb
       import Plug.Conn
-      import ShoppingCartWeb.Router.Helpers
-      import ShoppingCartWeb.Gettext
+      import AcmeWeb.Router.Helpers
+      import AcmeWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/shopping_cart_web/templates",
-                        namespace: ShoppingCartWeb
+      use Phoenix.View, root: "lib/acme_web/templates",
+                        namespace: AcmeWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
-      import ShoppingCartWeb.Router.Helpers
-      import ShoppingCartWeb.ErrorHelpers
-      import ShoppingCartWeb.Gettext
+      import AcmeWeb.Router.Helpers
+      import AcmeWeb.ErrorHelpers
+      import AcmeWeb.Gettext
     end
   end
 
@@ -51,7 +51,7 @@ defmodule ShoppingCartWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ShoppingCartWeb.Gettext
+      import AcmeWeb.Gettext
     end
   end
 

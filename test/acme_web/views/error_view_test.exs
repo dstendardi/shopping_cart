@@ -1,21 +1,21 @@
-defmodule ShoppingCartWeb.ErrorViewTest do
-  use ShoppingCartWeb.ConnCase, async: true
+defmodule AcmeWeb.ErrorViewTest do
+  use AcmeWeb.ConnCase, async: true
 
   # Bring render/3 and render_to_string/3 for testing custom views
   import Phoenix.View
 
   test "renders 404.json" do
-    assert render(ShoppingCartWeb.ErrorView, "404.json", []) ==
+    assert render(AcmeWeb.ErrorView, "404.json", []) ==
            %{errors: %{detail: "Page not found"}}
   end
 
   test "render 500.json" do
-    assert render(ShoppingCartWeb.ErrorView, "500.json", []) ==
+    assert render(AcmeWeb.ErrorView, "500.json", []) ==
            %{errors: %{detail: "Internal server error"}}
   end
 
   test "render any other" do
-    assert render(ShoppingCartWeb.ErrorView, "505.json", []) ==
+    assert render(AcmeWeb.ErrorView, "505.json", []) ==
            %{errors: %{detail: "Internal server error"}}
   end
 end

@@ -1,4 +1,4 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(ShoppingCart.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Acme.Repo, :manual)
 

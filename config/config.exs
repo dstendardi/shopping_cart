@@ -6,16 +6,16 @@
 use Mix.Config
 
 # General application configuration
-config :shopping_cart,
-  ecto_repos: [ShoppingCart.Repo],
+config :acme,
+  ecto_repos: [Acme.Repo],
   generators: [binary_id: true]
 
 # Configures the endpoint
-config :shopping_cart, ShoppingCartWeb.Endpoint,
+config :acme, AcmeWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "rpZh6HmM+AigDo1BwUVRiH+VEqYION2kEFqaUP2jri8VyvbeEWXzxa16cRam4zY9",
-  render_errors: [view: ShoppingCartWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: ShoppingCart.PubSub,
+  render_errors: [view: AcmeWeb.ErrorView, accepts: ~w(json)],
+  pubsub: [name: Acme.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

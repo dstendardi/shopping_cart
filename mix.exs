@@ -1,9 +1,9 @@
-defmodule ShoppingCart.Mixfile do
+defmodule Acme.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :shopping_cart,
+      app: :acme,
       version: "0.0.1",
       elixir: "~> 1.4.5",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -19,7 +19,7 @@ defmodule ShoppingCart.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ShoppingCart.Application, []},
+      mod: {Acme.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

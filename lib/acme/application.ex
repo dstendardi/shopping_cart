@@ -1,4 +1,4 @@
-defmodule ShoppingCart.Application do
+defmodule Acme.Application do
   use Application
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -9,23 +9,23 @@ defmodule ShoppingCart.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(ShoppingCart.Repo, []),
+      supervisor(Acme.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(ShoppingCartWeb.Endpoint, []),
-      # Start your own worker by calling: ShoppingCart.Worker.start_link(arg1, arg2, arg3)
-      # worker(ShoppingCart.Worker, [arg1, arg2, arg3]),
+      supervisor(AcmeWeb.Endpoint, []),
+      # Start your own worker by calling: Acme.Worker.start_link(arg1, arg2, arg3)
+      # worker(Acme.Worker, [arg1, arg2, arg3]),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ShoppingCart.Supervisor]
+    opts = [strategy: :one_for_one, name: Acme.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    ShoppingCartWeb.Endpoint.config_change(changed, removed)
+    AcmeWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end
