@@ -1,5 +1,7 @@
 # ShoppingCart
 
+[![CircleCI](https://circleci.com/gh/dstendardi/shopping_cart.svg?style=shield)](https://circleci.com/gh/dstendardi/shopping_cart)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

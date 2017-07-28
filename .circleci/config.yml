@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/shopping_cart
+    docker:
+      - image: circleci/elixir:1.4.5
+      - image: postgres:9.4.1
+        environment:
+          POSTGRES_USER: ubuntu
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - mix-{{ .Branch }}-{{ checksum "mix.lock" }}
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix deps.get
+      - run: mix compile
+      - run: mix ecto.create
+      - run: mix test
+      - save_cache:
+          key: mix-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - deps
