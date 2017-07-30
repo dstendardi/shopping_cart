@@ -8,7 +8,9 @@ use Mix.Config
 # General application configuration
 config :acme,
   ecto_repos: [Acme.Repo],
-  generators: [binary_id: true]
+  generators: [binary_id: true],
+  max_item_per_order: 50,
+  max_quantity_per_item: 200
 
 # Configures the endpoint
 config :acme, AcmeWeb.Endpoint,
@@ -18,10 +20,12 @@ config :acme, AcmeWeb.Endpoint,
   pubsub: [name: Acme.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
