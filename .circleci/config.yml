@@ -17,6 +17,7 @@ jobs:
       - run: mix deps.get
       - run: mix compile
       - run: mix ecto.create
+      - run: mix credo
       - run: mix test
       - save_cache:
           key: mix-{{ .Branch }}-{{ checksum "mix.lock" }}
