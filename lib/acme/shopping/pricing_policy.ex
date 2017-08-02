@@ -81,7 +81,7 @@ defmodule Acme.Shopping.PricingPolicy do
     """
 
     def apply_policy({price, quantity}) do
-      price * quantity
+      Money.multiply(price, quantity)
     end
   end
 
@@ -92,25 +92,29 @@ defmodule Acme.Shopping.PricingPolicy do
 
     ## Examples
 
-      iex> Acme.Shopping.PricingPolicy.BundlePolicy.apply_policy({20, 2})
-      20.0
+    iex> apply_policy({Money.new(20_00), 2})
+    Money.new(20_00)
 
-      iex> Acme.Shopping.PricingPolicy.BundlePolicy.apply_policy({20, 3})
-      40.0
+    iex> apply_policy({Money.new(20_00), 3})
+    Money.new(40_00)
 
-      iex> Acme.Shopping.PricingPolicy.BundlePolicy.apply_policy({20, 1})
-      20.0
+    iex> apply_policy({Money.new(20_00), 1})
+    Money.new(20_00)
 
-      iex> Acme.Shopping.PricingPolicy.BundlePolicy.apply_policy({20, 0})
-      0.0
+    iex> apply_policy({Money.new(20_00), 0})
+    Money.new(0)
     """
 
     def apply_policy({price, quantity}) do
 
       bundles = Float.floor(quantity / 2)
+
       remainder = rem(quantity, 2)
 
-      (bundles * price) + (remainder * price)
+      price
+      |> Money.multiply(bundles)
+      |> Money.add(Money.multiply(price, remainder))
+
     end
   end
 
@@ -122,24 +126,33 @@ defmodule Acme.Shopping.PricingPolicy do
 
     ## Examples
 
-      iex> Acme.Shopping.PricingPolicy.DegressivePolicy.apply_policy({20, 2})
-      40.0
+    iex> apply_policy({Money.new(20_00), 2})
+    Money.new(40_00)
 
-      iex> Acme.Shopping.PricingPolicy.DegressivePolicy.apply_policy({20, 3})
-      57.0
+    iex> apply_policy({Money.new(20_00), 3})
+    Money.new(57_00)
 
-      iex> Acme.Shopping.PricingPolicy.DegressivePolicy.apply_policy({20, 0})
-      0.0
+    iex> apply_policy({Money.new(20_00), 0})
+    Money.new(0)
     """
 
     def apply_policy({price, quantity}) do
 
       # to be replaced
       threshold = 3
+      percentage = 5
 
-      price = if quantity >= threshold do  price - (price * 5 / 100) else price end
+      price_after_reduction = if quantity >= threshold do
 
-      (quantity * price) / 1
+        %{amount: amount} = Money.multiply(price, percentage)
+        reduction = Money.new(round(amount / 100))
+
+        Money.subtract(price, reduction)
+      else
+        price
+      end
+
+      Money.multiply(price_after_reduction, quantity)
     end
   end
 end

@@ -12,6 +12,9 @@ config :acme,
   max_item_per_order: 50,
   max_quantity_per_item: 200
 
+config :money,
+  default_currency: :EUR
+
 # Configures the endpoint
 config :acme, AcmeWeb.Endpoint,
   url: [host: "localhost"],

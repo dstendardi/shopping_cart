@@ -1,7 +1,7 @@
 defmodule Acme.Shopping.OrderItemTest do
 
   use Acme.DataCase
-
+  import Money.Sigils
   alias Acme.Shopping.{Order, Product, OrderItem, ProductTest, OrderTest}
 
   describe "changeset" do
@@ -56,11 +56,11 @@ defmodule Acme.Shopping.OrderItemTest do
       order = %Order{} |> Acme.Repo.insert!()
 
       order = Enum.reduce(1..@max_item_per_order, order, fn(num, order) ->
-          product = %Product{name: "tshift #{num}", price: 20.0} |> Acme.Repo.insert!
+          product = %Product{name: "tshift #{num}", price: ~M[20_00] } |> Acme.Repo.insert!
           order |> Order.add(product.id)
       end)
 
-      after_eight = %Product{name: "after eight", price: 20.0} |> Acme.Repo.insert!
+      after_eight = %Product{name: "after eight", price: ~M[20_00] } |> Acme.Repo.insert!
 
       # when
       changeset = %OrderItem{} |> OrderItem.changeset(%{product_id: after_eight.id, order_id: order.id, quantity: 1})
@@ -103,7 +103,7 @@ defmodule Acme.Shopping.OrderItemTest do
     test "reject non-existent order" do
 
       # given
-      tshirt = %Product{name: "tshirt", price: 20.0} |> Acme.Repo.insert!
+      tshirt = %Product{name: "tshirt", price: ~M[20_00] } |> Acme.Repo.insert!
 
       # when
       {:error, changeset} = %OrderItem{}

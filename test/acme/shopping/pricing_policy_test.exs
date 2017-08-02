@@ -2,8 +2,8 @@ defmodule Acme.Shopping.PricingPolicyTest do
   use Acme.DataCase
 
   alias Acme.Shopping.PricingPolicy
-  doctest PricingPolicy.BundlePolicy
-  doctest PricingPolicy.DegressivePolicy
+  doctest PricingPolicy.BundlePolicy, import: true
+  doctest PricingPolicy.DegressivePolicy, import: true
 
   @valid_attrs %{name: "One for one", rule: "DefaultPolicy"}
 

@@ -8,6 +8,7 @@ defmodule Acme.Shopping.Order do
 
   use Ecto.Schema
   import Ecto.{Changeset}
+  import Money.Sigils
   alias Acme.Shopping.{Order, OrderItem, PricingPolicy}
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -62,7 +63,7 @@ defmodule Acme.Shopping.Order do
       |> OrderItem.price_and_quantity_by_item()
       |> Acme.Repo.all()
       |> Enum.reduce(%{}, &price_per_product_with_rule/2)
-      |> Enum.reduce(0, &apply_rule/2)
+      |> Enum.reduce(~M[0], &apply_rule/2)
   end
 
   defp price_per_product_with_rule({product_id, rule, price, quantity}, acc) do
@@ -70,6 +71,9 @@ defmodule Acme.Shopping.Order do
   end
 
   defp apply_rule({_, {price, quantity, rule}}, acc) do
-    acc + PricingPolicy.apply_rule(rule, {price, quantity})
+
+    price_after_promotion = PricingPolicy.apply_rule(rule, {price, quantity})
+
+    Money.add(acc, price_after_promotion)
   end
 end

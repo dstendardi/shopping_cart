@@ -2,11 +2,14 @@ defmodule Acme.Shopping.ProductTest do
   use Acme.DataCase
 
   alias Acme.Shopping.Product
+  import Money.Sigils
 
-  @valid_attrs %{name: "t-shirt", price: 20.0}
+  @valid_attrs %{name: "t-shirt", price: ~M[20_00] }
 
   def default() do
-    %Product{} |> Map.merge(@valid_attrs) |> Acme.Repo.insert!
+    %Product{}
+    |> Map.merge(@valid_attrs)
+    |> Acme.Repo.insert!
   end
 
   describe "changeset" do
@@ -37,27 +40,27 @@ defmodule Acme.Shopping.ProductTest do
     test "reject a price equals to zero" do
 
       # given
-      params = %{@valid_attrs | price: 0}
+      params = %{@valid_attrs | price: ~M[0]}
 
       # when
       changeset = Product.changeset(%Product{}, params)
 
       # then
       refute changeset.valid?
-      assert changeset.errors[:price] == {"must be greater than %{number}", [validation: :number, number: 0]}
+      assert changeset.errors[:price] == {"must be greater than zero", []}
     end
 
     test "reject a price lower than zero" do
 
       # given
-      params = %{@valid_attrs | price: -1}
+      params = %{@valid_attrs | price: ~M[-1]}
 
       # when
       changeset = Product.changeset(%Product{}, params)
 
       # then
       refute changeset.valid?
-      assert changeset.errors[:price] == {"must be greater than %{number}", [validation: :number, number: 0]}
+      assert changeset.errors[:price] == {"must be greater than zero", []}
     end
 
   end

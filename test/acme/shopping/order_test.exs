@@ -3,6 +3,7 @@ defmodule Acme.Shopping.OrderTest do
   use Acme.DataCase
 
   alias Acme.Shopping.{Order, Product, Promotion}
+  import Money.Sigils
 
   def default() do
      %Order{} |> Acme.Repo.insert!()
@@ -13,7 +14,7 @@ defmodule Acme.Shopping.OrderTest do
     test "add single items to the shopping cart returns the item price" do
 
       # given
-      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: 20.0})
+      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: ~M[20_00] })
 
       # when
       price = Order.create()
@@ -27,7 +28,7 @@ defmodule Acme.Shopping.OrderTest do
     test "add several items of the same type returns the cumulated price" do
 
       # given
-      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: 20.0})
+      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: ~M[20_00] })
 
       # when
       price = Order.create()
@@ -36,14 +37,14 @@ defmodule Acme.Shopping.OrderTest do
         |> Order.price()
 
       # then
-      assert tshirt.price * 2 == price
+      assert Money.multiply(tshirt.price, 2) == price
     end
 
     test "add one item per product returns the sum of each item price" do
 
       # given
-      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: 20.0})
-      mug = Acme.Repo.insert!(%Product{name: "mug", price: 5.0})
+      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: ~M[20_00] })
+      mug = Acme.Repo.insert!(%Product{name: "mug", price: ~M[5_00] })
 
       # when
       price = Order.create()
@@ -52,7 +53,7 @@ defmodule Acme.Shopping.OrderTest do
         |> Order.price()
 
       # then
-      assert tshirt.price + mug.price == price
+      assert Money.add(tshirt.price, mug.price) == price
     end
 
     test "add non-existent product to the order throw Ecto.InvalidChangesetError" do
@@ -76,7 +77,7 @@ defmodule Acme.Shopping.OrderTest do
 
       products = Enum.map(1..to_many_items_per_order, fn(number) -> [
         name: "tshirt-#{number}",
-        price: 20.0,
+        price: ~M[20_00] ,
         inserted_at: Ecto.DateTime.utc,
         updated_at: Ecto.DateTime.utc
       ] end)
@@ -99,7 +100,7 @@ defmodule Acme.Shopping.OrderTest do
       # given
       max_quantity_per_item = Application.get_env(:acme, :max_quantity_per_item) + 1
 
-      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: 20.0})
+      tshirt = Acme.Repo.insert!(%Product{name: "tshirt", price: ~M[20_00] })
 
       # when
       # then
@@ -129,15 +130,15 @@ defmodule Acme.Shopping.OrderTest do
       |> Order.price()
 
       # then
-      assert 0 == price
+      assert ~M[0] == price
     end
 
     test "with no product elligible to promotion" do
 
       # given
-      tshirt = create_product_with_policy("tshirt", 20.0, "DegressivePolicy")
-      voucher = create_product_with_policy("voucher", 5.0, "BundlePolicy")
-      mug =  Acme.Repo.insert!(%Product{name: "mug", price: 7.50})
+      tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
+      voucher = create_product_with_policy("voucher", ~M[5_00] , "BundlePolicy")
+      mug =  Acme.Repo.insert!(%Product{name: "mug", price: ~M[750] })
 
       # when
       price = Order.create()
@@ -147,14 +148,14 @@ defmodule Acme.Shopping.OrderTest do
       |> Order.price()
 
       # then
-      assert 32.50 == price
+      assert ~M[32_50] == price
     end
 
     test "with bundle policy applied to voucher" do
 
       # given
-      tshirt = create_product_with_policy("tshirt", 20.0, "DegressivePolicy")
-      voucher = create_product_with_policy("voucher", 5.0, "BundlePolicy")
+      tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
+      voucher = create_product_with_policy("voucher", ~M[5_00] , "BundlePolicy")
 
       # when
       price = Order.create()
@@ -164,14 +165,14 @@ defmodule Acme.Shopping.OrderTest do
       |> Order.price()
 
       # then
-      assert 25.0 == price
+      assert ~M[25_00] == price
     end
 
     test "with degressive policy applied to tshirt" do
 
       # given
-      tshirt = create_product_with_policy("tshirt", 20.0, "DegressivePolicy")
-      voucher = create_product_with_policy("voucher", 5.0, "BundlePolicy")
+      tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
+      voucher = create_product_with_policy("voucher", ~M[5_00] , "BundlePolicy")
 
       # when
       price = Order.create()
@@ -183,16 +184,16 @@ defmodule Acme.Shopping.OrderTest do
       |> Order.price()
 
       # then
-      assert 81.00 == price
+      assert ~M[81_00] == price
     end
 
 
     test "with degressive and bundle policy applied distincly to tshirt and voucher" do
 
       # given
-      tshirt = create_product_with_policy("tshirt", 20.0, "DegressivePolicy")
-      voucher = create_product_with_policy("voucher", 5.0, "BundlePolicy")
-      mug = Acme.Repo.insert!(%Product{name: "mug", price: 7.50})
+      tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
+      voucher = create_product_with_policy("voucher", ~M[5_00] , "BundlePolicy")
+      mug = Acme.Repo.insert!(%Product{name: "mug", price: ~M[7_50] })
 
       # when
       price = Order.create()
@@ -206,7 +207,7 @@ defmodule Acme.Shopping.OrderTest do
       |> Order.price()
 
       # then
-      assert 74.50 == price
+      assert ~M[74_50] == price
     end
   end
 

@@ -15,7 +15,7 @@ defmodule Acme.Shopping.Product do
 
   schema "products" do
     field :name, :string
-    field :price, :float
+    field :price, Money.Ecto.Type
 
     timestamps()
   end
@@ -25,6 +25,9 @@ defmodule Acme.Shopping.Product do
     product
     |> cast(attrs, [:name, :price])
     |> validate_required([:name, :price])
-    |> validate_number(:price, greater_than: 0)
+    |> validate_change(:price, fn(:price, %Money{amount: amount}) ->
+
+      if amount > 0, do: [], else: [price: "must be greater than zero"]
+    end)
   end
 end
