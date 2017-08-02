@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/shopping_cart
     docker:
       - image: circleci/elixir:1.4.5
-      - image: postgres:9.4.1
+      - image: postgres:9.6.3
         environment:
           POSTGRES_USER: ubuntu
     steps:
