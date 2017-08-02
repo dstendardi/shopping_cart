@@ -133,7 +133,7 @@ defmodule Acme.Shopping.OrderTest do
       assert ~M[0] == price
     end
 
-    test "with no product elligible to promotion" do
+    test "with no product eligible to promotion should return the sum of all product prices per quantity" do
 
       # given
       tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
@@ -151,7 +151,7 @@ defmodule Acme.Shopping.OrderTest do
       assert ~M[32_50] == price
     end
 
-    test "with bundle policy applied to voucher" do
+    test "with a pair of product subject to bundle promotion should give one for free" do
 
       # given
       tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
@@ -168,7 +168,7 @@ defmodule Acme.Shopping.OrderTest do
       assert ~M[25_00] == price
     end
 
-    test "with degressive policy applied to tshirt" do
+    test "with degressive policy applied to 4 products should give a reduction for each occurence of this product" do
 
       # given
       tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
@@ -188,7 +188,7 @@ defmodule Acme.Shopping.OrderTest do
     end
 
 
-    test "with degressive and bundle policy applied distincly to tshirt and voucher" do
+    test "with degressive and bundle policy applied to tshirt and voucher should give two distinct reductions" do
 
       # given
       tshirt = create_product_with_policy("tshirt", ~M[20_00] , "DegressivePolicy")
