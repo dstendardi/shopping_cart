@@ -1,6 +1,7 @@
 # ShoppingCart
 
 [![CircleCI](https://circleci.com/gh/dstendardi/shopping_cart.svg?style=shield)](https://circleci.com/gh/dstendardi/shopping_cart)
+[![Coverage Status](https://coveralls.io/repos/github/dstendardi/shopping_cart/badge.svg?branch=master)](https://coveralls.io/github/dstendardi/shopping_cart?branch=master)
 
 ## Requirements
 

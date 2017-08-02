@@ -4,6 +4,8 @@ jobs:
     working_directory: ~/shopping_cart
     docker:
       - image: circleci/elixir:1.4.5
+        environment:
+          MIX_ENV: test
       - image: postgres:9.6.3
         environment:
           POSTGRES_USER: ubuntu
@@ -18,7 +20,7 @@ jobs:
       - run: mix compile
       - run: mix ecto.create
       - run: mix credo
-      - run: mix test
+      - run: mix coveralls.post -t $COVERALLS_TOKEN
       - save_cache:
           key: mix-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths:
