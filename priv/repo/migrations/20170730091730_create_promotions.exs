@@ -1,4 +1,4 @@
-defmodule Acme.Repo.Migrations.CreatePricingPoliciesHasProducts do
+defmodule Acme.Repo.Migrations.CreatePromotions do
   use Ecto.Migration
 
   def change do
