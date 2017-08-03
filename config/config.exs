@@ -8,7 +8,12 @@ use Mix.Config
 # General application configuration
 config :acme,
   ecto_repos: [Acme.Repo],
-  generators: [binary_id: true]
+  generators: [binary_id: true],
+  max_item_per_order: 50,
+  max_quantity_per_item: 200
+
+config :money,
+  default_currency: :EUR
 
 # Configures the endpoint
 config :acme, AcmeWeb.Endpoint,
