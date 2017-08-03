@@ -89,7 +89,7 @@ defmodule Acme.Shopping.OrderTest do
       assert_raise Ecto.InvalidChangesetError, fn ->
 
         Enum.reduce(created_products, Order.create(), fn(%Product{id: product_id}, order) ->
-           order|> Order.add(product_id)
+          order|> Order.add(product_id)
         end)
       end
 
